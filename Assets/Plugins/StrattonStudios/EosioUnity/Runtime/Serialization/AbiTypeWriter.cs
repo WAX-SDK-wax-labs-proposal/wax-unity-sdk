@@ -740,21 +740,21 @@ namespace StrattonStudios.EosioUnity.Serialization
                 var valueDict = data as System.Collections.IDictionary;
                 foreach (var field in abiStruct.fields)
                 {
-                    var fieldName = AbiTypeUtility.FindObjectFieldName(field.name, valueDict);
+                    var fieldName = AbiTypeUtility.FindObjectFieldName(field.Name, valueDict);
                     if (string.IsNullOrWhiteSpace(fieldName))
                     {
-                        if (field.type.EndsWith("$"))
+                        if (field.Type.EndsWith("$"))
                         {
                             skippedBinaryExtension = true;
                             continue;
                         }
-                        throw new System.Exception("The ABI struct field is missing: " + abiStruct.name + "." + field.name + " (type=" + field.type + ")");
+                        throw new System.Exception("The ABI struct field is missing: " + abiStruct.name + "." + field.Name + " (type=" + field.Type + ")");
                     }
                     else if (skippedBinaryExtension)
                     {
-                        throw new System.Exception("Unexpected " + abiStruct.name + "." + field.name + " (type=" + field.type + ")");
+                        throw new System.Exception("Unexpected " + abiStruct.name + "." + field.Name + " (type=" + field.Type + ")");
                     }
-                    WriteAbiType(writer, valueDict[fieldName], field.type, abi, true);
+                    WriteAbiType(writer, valueDict[fieldName], field.Type, abi, true);
                 }
             }
             else
@@ -762,22 +762,22 @@ namespace StrattonStudios.EosioUnity.Serialization
                 var valueType = data.GetType();
                 foreach (var field in abiStruct.fields)
                 {
-                    var fieldInfo = valueType.GetField(field.name);
+                    var fieldInfo = valueType.GetField(field.Name);
                     if (fieldInfo != null)
                     {
-                        WriteAbiType(writer, fieldInfo.GetValue(data), field.type, abi, true);
+                        WriteAbiType(writer, fieldInfo.GetValue(data), field.Type, abi, true);
                     }
                     else
                     {
-                        var propName = AbiTypeUtility.FindObjectPropertyName(field.name, valueType);
+                        var propName = AbiTypeUtility.FindObjectPropertyName(field.Name, valueType);
                         var propInfo = valueType.GetProperty(propName);
                         if (propInfo != null)
                         {
-                            WriteAbiType(writer, propInfo.GetValue(data), field.type, abi, true);
+                            WriteAbiType(writer, propInfo.GetValue(data), field.Type, abi, true);
                         }
                         else
                         {
-                            throw new System.Exception("The object's property for the ABI field is missing: " + abiStruct.name + "." + field.name + " (type=" + field.type + ")");
+                            throw new System.Exception("The object's property for the ABI field is missing: " + abiStruct.name + "." + field.Name + " (type=" + field.Type + ")");
                         }
                     }
                 }

@@ -1,7 +1,7 @@
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class ConfigData
+    public abstract class ConfigData
     {
 
     }

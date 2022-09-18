@@ -8,25 +8,33 @@ using UnityEngine;
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class LogsData
+    public partial class LogsData
     {
-
-        [JsonProperty("log_id")]
+        /// <summary>The id of the log.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("log_id")]
         public string LogId { get; set; }
 
-        [JsonProperty("name")]
+        /// <summary>The name of the log.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("data")]
+        /// <summary>The data associated with the log.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("data")]
         public object Data { get; set; }
-
-        [JsonProperty("txid")]
+        /// <summary>The transaction id of the log.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("txid")]
         public string TxId { get; set; }
-
-        [JsonProperty("created_at_block")]
+        /// <summary>The block at which the log was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_block")]
         public string CreatedAtBlock { get; set; }
-
-        [JsonProperty("created_at_time")]
+        /// <summary>The time at which the log was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_time")]
         public string CreatedAtTime { get; set; }
 
     }

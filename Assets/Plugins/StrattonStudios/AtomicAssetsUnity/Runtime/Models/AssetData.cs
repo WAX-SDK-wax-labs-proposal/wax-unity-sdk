@@ -1,72 +1,109 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
 using Newtonsoft.Json;
 
-using UnityEngine;
+
 
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class AssetData
+    public partial class AssetData
     {
 
-        [JsonProperty("contract")]
+        /// <summary>The contract associated with the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("contract")]
         public string Contract { get; set; }
 
-        [JsonProperty("asset_id")]
-        public string AssetId { get; set; }
+        /// <summary>The asset ID of the NFT.</summary>
+        /// <remarks>This property is only available when the page is loaded from an asset.</remarks>
+        [property: JsonProperty("asset_id")]
+        public string AssetID { get; set; }
 
-        [JsonProperty("owner")]
+        /// <summary>The owner of the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("owner")]
         public string Owner { get; set; }
 
-        [JsonProperty("is_transferable")]
+        /// <summary>A bool wheter the asset can be transferred.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("is_transferable")]
         public bool Transferable { get; set; }
 
-        [JsonProperty("is_burnable")]
+        /// <summary>A bool wheter the asset can be burned.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("is_burnable")]
         public bool Burnable { get; set; }
 
-        [JsonProperty("collection")]
+        /// <summary>The collection data associated with the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("collection")]
         public CollectionData Collection { get; set; }
 
-        [JsonProperty("schema")]
+        /// <summary>The collection data associated with the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("schema")]
         public SchemaData Schema { get; set; }
 
-        [JsonProperty("template")]
+        /// <summary>The template data associated with the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("template")]
         public TemplateData Template { get; set; }
 
-        [JsonProperty("mutable_data")]
+        /// <summary>The immutable data associated with the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("mutable_data")]
         public object MutableData { get; set; }
 
-        [JsonProperty("immutable_data")]
+        /// <summary>The immutable data associated with the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("immutable_data")]
         public object ImmutableData { get; set; }
 
-        [JsonProperty("template_mint")]
+        /// <summary>The template mint number associated with the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("template_mint")]
         public string TemplateMint { get; set; }
 
-        [JsonProperty("backed_tokens")]
+        /// <summary>Wheter the token is backed by any tokens.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("backed_tokens")]
         public BackedTokensData[] BackedTokens { get; set; }
 
-        [JsonProperty("updated_at_block")]
+        /// <summary>The block at which the asset was updated.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("updated_at_block")]
         public string UpdatedAtBlock { get; set; }
 
-        [JsonProperty("updated_at_time")]
+        /// <summary>The time at which the asset was updated.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("updated_at_time")]
         public string UpdatedAtTime { get; set; }
 
-        [JsonProperty("transferred_at_block")]
+        /// <summary>The block at which the asset was transfered.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("transferred_at_block")]
         public string TransferredAtBlock { get; set; }
 
-        [JsonProperty("transferred_at_time")]
+        /// <summary>The time at which the asset was transfered.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("transferred_at_time")]
         public string TransferredAtTime { get; set; }
 
-        [JsonProperty("minted_at_block")]
+        /// <summary>The block at which the asset was minted.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("minted_at_block")]
         public string MintedAtBlock { get; set; }
 
-        [JsonProperty("minted_at_time")]
+        /// <summary>The time at which the asset was minted.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("minted_at_time")]
         public string MintedAtTime { get; set; }
 
-
-        [JsonProperty("name")]
+        /// <summary>The name of the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("name")]
         public string Name { get; set; }
 
     }

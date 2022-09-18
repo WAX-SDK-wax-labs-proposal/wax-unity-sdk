@@ -10,9 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using StrattonStudios.AtomicAssetsUnity.Models;
-using StrattonStudios.Networking.Utilities;
-
-using UnityEditor.Search;
+using StrattonStudios.Networking.Http.Query;
 
 using UnityEngine;
 using UnityEngine.Networking;
@@ -429,7 +427,7 @@ namespace StrattonStudios.AtomicAssetsUnity.Api
             string queryString = null;
             if (query != null)
             {
-                queryString = query.ToQueryString();
+                queryString = HttpQueryConvert.SerializeObject(query);
             }
             if (!string.IsNullOrEmpty(queryString))
             {

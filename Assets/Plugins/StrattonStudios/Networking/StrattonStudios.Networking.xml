@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StrattonStudios.Networking</name>
+    </assembly>
+    <members>
+        <member name="T:StrattonStudios.Networking.Http.Query.HttpQueryConvert">
+            <summary>
+            Provides convenient static methods for serializing and deserializing HTTP query parameters from and to string.
+            </summary>
+        </member>
+        <member name="M:StrattonStudios.Networking.Http.Query.HttpQueryConvert.SerializeObject(System.Object)">
+            <summary>
+            Converts an object to a URL-safe query parameters string.
+            </summary>
+            <param name="obj">The object to convert</param>
+            <returns>Returns a URL-safe query parameters string</returns>
+        </member>
+        <member name="M:StrattonStudios.Networking.Http.Query.HttpQueryConvert.SerializeObject(System.Object,System.Boolean)">
+            <summary>
+            Converts an object to a URL-safe query parameters string.
+            </summary>
+            <param name="obj">The object to convert</param>
+            <param name="joinCollections">Whether to join collections as a single parameter in query</param>
+            <returns>Returns a URL-safe query parameters string</returns>
+        </member>
+        <member name="M:StrattonStudios.Networking.Http.Query.HttpQueryConvert.SerializeObject(System.Object,System.Boolean,System.String)">
+            <summary>
+            Converts an object to a URL-safe query parameters string.
+            </summary>
+            <param name="obj">The object to convert</param>
+            <param name="joinCollections">Whether to join collections as a single parameter in query</param>
+            <param name="separator">The separator to use for joining the collections</param>
+            <returns>Returns a URL-safe query parameters string</returns>
+        </member>
+        <member name="T:StrattonStudios.Networking.Http.Query.HttpQueryParameterAttribute">
+            <summary>
+            Use this attribute to customize the name of a member or value when serialized to query string format.
+            </summary>
+        </member>
+        <member name="T:StrattonStudios.Networking.Http.Query.HttpQuerySerializer">
+            <summary>
+            HTTP Query serializer, makes it easy to serialize objects to query string.
+            </summary>
+        </member>
+        <member name="T:StrattonStudios.Networking.Http.Query.HttpQuerySerializer.EscapeCallback">
+            <summary>
+            The escape callback, this is used to customize the Escape function of the <see cref="T:StrattonStudios.Networking.Http.Query.HttpQuerySerializer"/> when encoding strings to URL-safe.
+            </summary>
+            <param name="text">The text to encode to URL-safe</param>
+            <returns>Returns a URL-safe encoded string</returns>
+        </member>
+        <member name="F:StrattonStudios.Networking.Http.Query.HttpQuerySerializer.DefaultCollectionItemSeparator">
+            <summary>
+            The default collection item separator.
+            </summary>
+        </member>
+        <member name="P:StrattonStudios.Networking.Http.Query.HttpQuerySerializer.EscapeFunction">
+            <summary>
+            Gets or sets the escape function used for encoding strings to URL-safe.
+            </summary>
+            <remarks>
+            Uses <see cref="M:UnityEngine.Networking.UnityWebRequest.EscapeURL(System.String)"/> by default.
+            </remarks>
+        </member>
+        <member name="P:StrattonStudios.Networking.Http.Query.HttpQuerySerializer.JoinCollections">
+            <summary>
+            Gets or sets whether to join collection items together using <see cref="M:System.String.Join(System.String,System.Collections.Generic.IEnumerable{System.String})"/> with the specified <see cref="P:StrattonStudios.Networking.Http.Query.HttpQuerySerializer.CollectionItemSeparator"/>.
+            </summary>
+        </member>
+        <member name="P:StrattonStudios.Networking.Http.Query.HttpQuerySerializer.CollectionItemSeparator">
+            <summary>
+            Gets or sets the collection item separator.
+            </summary>
+        </member>
+        <member name="M:StrattonStudios.Networking.Http.Query.HttpQuerySerializer.Serialize(System.Object)">
+            <summary>
+            Serializes the <paramref name="obj"/> to query string.
+            </summary>
+            <param name="obj">The object to serialize</param>
+            <returns>Returns the URL-safe query string</returns>
+        </member>
+    </members>
+</doc>

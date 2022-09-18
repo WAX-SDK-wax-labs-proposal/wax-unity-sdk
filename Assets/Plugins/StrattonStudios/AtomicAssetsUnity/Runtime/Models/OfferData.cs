@@ -1,59 +1,88 @@
-using System.Collections;
-using System.Collections.Generic;
 
 using Newtonsoft.Json;
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class OfferData
+    public partial class OfferData
     {
 
-        [JsonProperty("contract")]
+        /// <summary>The contract associated with the offer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("contract")]
         public string Contract { get; set; }
 
-        [JsonProperty("offer_id")]
+        /// <summary>The id of the offer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("offer_id")]
         public string OfferId { get; set; }
 
-        [JsonProperty("sender_name")]
+        /// <summary>The name of the sender of the offer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("sender_name")]
         public string SenderName { get; set; }
 
-        [JsonProperty("recipient_name")]
+        /// <summary>The name of the recipient of the offer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("recipient_name")]
         public string RecipientName { get; set; }
 
-        [JsonProperty("memo")]
+        /// <summary>The memo included with the offer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("memo")]
         public string Memo { get; set; }
 
-        [JsonProperty("state")]
+        /// <summary>The state associated with the offer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("state")]
         public int State { get; set; }
 
-        [JsonProperty("is_sender_contract")]
+        /// <summary>A bool wheter the sender owns the contract.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("is_sender_contract")]
         public bool IsSenderContract { get; set; }
 
-        [JsonProperty("is_recipient_contract")]
+        /// <summary>A bool wheter the recipient owns the contract.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("is_recipient_contract")]
         public bool IsRecipientContract { get; set; }
 
-        [JsonProperty("data")]
+        /// <summary>The data associated with the offer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("data")]
         public object Data { get; set; }
-
-        [JsonProperty("created_at_block")]
+        
+        /// <summary>The block at which the offer was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_block")]
         public float CreatedAtBlock { get; set; }
 
-        [JsonProperty("created_at_time")]
+        /// <summary>The time at which the offer was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_time")]
         public float CreatedAtTime { get; set; }
 
-        [JsonProperty("updated_at_block")]
+        /// <summary>The block at which the offer was updated.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("updated_at_block")]
         public float UpdatedAtBlock { get; set; }
 
-        [JsonProperty("updated_at_time")]
+        /// <summary>The time at which the offer was updated.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("updated_at_time")]
         public float UpdatedAtTime { get; set; }
 
-        [JsonProperty("sender_assets")]
+        /// <summary>The array of assets being sent by the sender.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("sender_assets")]
         public AssetData[] SenderAssets { get; set; }
 
-        [JsonProperty("recipient_assets")]
+        /// <summary>The array of assets being sent by the recipient.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("recipient_assets")]
         public AssetData[] RecipientAssets { get; set; }
 
     }

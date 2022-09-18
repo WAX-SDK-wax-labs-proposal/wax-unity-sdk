@@ -1,50 +1,74 @@
-using System.Collections;
-using System.Collections.Generic;
+
 
 using Newtonsoft.Json;
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class TemplateData
+    public partial class TemplateData
     {
 
-        [JsonProperty("contract")]
+        /// <summary>The contract name for the template</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("contract")]
         public string Contract { get; set; }
 
-        [JsonProperty("template_id")]
+        /// <summary>The unique identifier for the template.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("template_id")]
         public string TemplateId { get; set; }
 
-        [JsonProperty("max_supply")]
+        /// <summary>The Max Supply of the template that can be created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("max_supply")]
         public string MaxSupply { get; set; }
 
-        [JsonProperty("is_transferable")]
+        /// <summary>Wheter the template assets can be transfered.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("is_transferable")]
         public bool Transferable { get; set; }
 
-        [JsonProperty("is_burnable")]
+        /// <summary>Wheter the template assets can be transfered.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("is_burnable")]
         public bool Burnable { get; set; }
 
-        [JsonProperty("issued_supply")]
+        /// <summary>The number of assets in the template that have been created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("issued_supply")]
         public string IssuedSupply { get; set; }
-
-        [JsonProperty("created_at_block")]
+        
+        /// <summary>The date and time the block the template was included in was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_block")]
         public float CreatedAtBlock { get; set; }
 
-        [JsonProperty("created_at_time")]
+        /// <summary>The time at which the template was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_time")]
         public float CreatedAtTime { get; set; }
 
-        [JsonProperty("immutable_data")]
+        /// <summary>The immutable data stored in the template.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("immutable_data")]
         public AtomicAssetsImmutableData ImmutableData { get; set; }
 
-        [JsonProperty("assets")]
+        /// <summary>The assets in the template.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("assets")]
         public string Assets { get; set; }
 
-        [JsonProperty("collection")]
+        /// <summary>The collection data the template is apart of.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("collection")]
         public CollectionData Collection { get; set; }
 
-        [JsonProperty("scheme")]
+        /// <summary>The schema data of the template.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("scheme")]
         public SchemaData Schema { get; set; }
 
     }

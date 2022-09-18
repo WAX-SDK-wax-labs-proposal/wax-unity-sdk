@@ -112,8 +112,8 @@ namespace StrattonStudios.AnchorLinkUnity
             }
             catch (System.Exception e)
             {
-                //Debug.LogError("Failed to decrypt the data, loading the data without encryption instead");
-                //Debug.LogException(e);
+                Debug.LogWarning("Failed to decrypt the data, loading the data without encryption instead");
+                Debug.LogException(e);
 
                 // Backwards compatibility
                 return await this.storage.Read(key);

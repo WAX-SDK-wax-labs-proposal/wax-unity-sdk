@@ -8,16 +8,19 @@ using UnityEngine;
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class AtomicAssetsResponse<TData>
+    public partial class AtomicAssetsResponse<TData>
     {
-
-        [JsonProperty("success")]
+        /// <summary>A bool wheter the response was succesful.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("success")]
         public bool Success { get; set; }
-
-        [JsonProperty("data")]
+        /// <summary>The data assocaited with the response.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("data")]
         public TData Data { get; set; }
-
-        [JsonProperty("query_time")]
+        /// <summary>The query of the response.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("query_time")]
         public long QueryTime { get; set; }
 
     }

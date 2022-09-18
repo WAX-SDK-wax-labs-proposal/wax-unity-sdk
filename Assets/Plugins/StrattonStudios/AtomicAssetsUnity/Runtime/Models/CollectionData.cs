@@ -1,53 +1,74 @@
-using System.Collections;
-using System.Collections.Generic;
 
 using Newtonsoft.Json;
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class CollectionData
+    public  class CollectionData
     {
-
-        [JsonProperty("contract")]
+        /// <summary>The contract of the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("contract")]
         public string Contract { get; set; }
 
-        [JsonProperty("collection_name")]
+        /// <summary>The collection name.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("collection_name")]
         public string CollectionName { get; set; }
 
-        [JsonProperty("name")]
+        /// <summary>The name of the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("img")]
+        /// <summary>The image of the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("img")]
         public string Image { get; set; }
 
-        [JsonProperty("author")]
+        /// <summary>The author of the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("author")]
         public string Author { get; set; }
 
-        [JsonProperty("allow_notify")]
+        /// <summary>A bool whether a notification is allowed.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("allow_notify")]
         public bool AllowNotify { get; set; }
 
-        [JsonProperty("authorized_accounts")]
+        /// <summary>The authorized accounts for the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("authorized_accounts")]
         public string[] AuthorizedAccounts { get; set; }
 
-        [JsonProperty("notify_accounts")]
+        /// <summary>The accounts to notify for the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("notify_accounts")]
         public string[] NotifyAccounts { get; set; }
 
-        [JsonProperty("market_fee")]
+        /// <summary>The market fee for the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("market_fee")]
         public float MarketFee { get; set; }
 
-        [JsonProperty("data")]
+        /// <summary>The data associated with the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("data")]
         public object Data { get; set; }
-
-        [JsonProperty("assets")]
+        /// <summary>The assets associated with the collection.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("assets")]
         public string Assets { get; set; }
-
-        [JsonProperty("created_at_block")]
+        /// <summary>The block assocaited with the collection creation.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_block")]
         public float CreatedAtBlock { get; set; }
-
-        [JsonProperty("created_at_time")]
+        /// <summary>The time at which the collection was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_time")]
         public float CreatedAtTime { get; set; }
 
     }

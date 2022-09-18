@@ -1,32 +1,55 @@
 using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class AccountData
+    public partial class AccountData
     {
+        /// <summary>The account associated with the user.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
 
-        [JsonProperty("account")]
+        [property: JsonProperty("account")]
         public string Account { get; set; }
 
-        [JsonProperty("collections")]
+        /// <summary>The collections owned by the account.</summary>
+         /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+
+        [property: JsonProperty("collections")]
         public CollectionsDataWrapper[] Collections { get; set; }
 
-        [JsonProperty("templates")]
+        /// <summary>The templates associated with the account.</summary>
+         /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+
+        [property: JsonProperty("templates")]
         public TemplateData[] Templates { get; set; }
 
-        [JsonProperty("schemas")]
+        /// <summary>The schemas associated with the account.</summary>
+         /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+
+        [property: JsonProperty("schemas")]
         public SchemaData[] Schemas { get; set; }
 
-        [JsonProperty("assets")]
+        /// <summary>The assets associated with the account.</summary>
+         /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+
+        [property: JsonProperty("assets")]
         public string Assets { get; set; }
 
-        public class CollectionsDataWrapper
-        {
-            [JsonProperty("collection")]
+        public partial class CollectionsDataWrapper
+        {  
+            /// <summary>The collection data.</summary>
+             /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+
+            [property: JsonProperty("collection")]
             public CollectionData Collection { get; set; }
 
-            [JsonProperty("assets")]
+            /// <summary>The assets associated with the assets.</summary>
+            /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+
+            [property: JsonProperty("assets")]
             public string Assets { get; set; }
         }
 

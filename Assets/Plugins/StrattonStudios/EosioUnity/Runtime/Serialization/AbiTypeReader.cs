@@ -170,7 +170,7 @@ namespace StrattonStudios.EosioUnity.Serialization
             return BigNumberUtility.ConvertBinaryToDecimal(bytes);
         }
 
-        public static long ReadVarInt32(BinaryReader reader)
+        private static long ReadVarInt32(BinaryReader reader)
         {
             var v = ReadVarUInt32(reader);
 
@@ -803,9 +803,9 @@ namespace StrattonStudios.EosioUnity.Serialization
                 var valueDict = value as IDictionary<string, object>;
                 foreach (var field in abiStruct.fields)
                 {
-                    var abiValue = ReadAbiType(reader, field.type, abi, true);
-                    if (field.type.EndsWith("$") && abiValue == null) break;
-                    valueDict.Add(field.name, abiValue);
+                    var abiValue = ReadAbiType(reader, field.Type, abi, true);
+                    if (field.Type.EndsWith("$") && abiValue == null) break;
+                    valueDict.Add(field.Name, abiValue);
                 }
             }
             else
@@ -813,9 +813,9 @@ namespace StrattonStudios.EosioUnity.Serialization
                 var valueType = value.GetType();
                 foreach (var field in abiStruct.fields)
                 {
-                    var abiValue = ReadAbiType(reader, field.type, abi, true);
-                    if (field.type.EndsWith("$") && abiValue == null) break;
-                    var fieldName = AbiTypeUtility.FindObjectFieldName(field.name, value.GetType());
+                    var abiValue = ReadAbiType(reader, field.Type, abi, true);
+                    if (field.Type.EndsWith("$") && abiValue == null) break;
+                    var fieldName = AbiTypeUtility.FindObjectFieldName(field.Name, value.GetType());
                     valueType.GetField(fieldName).SetValue(value, abiValue);
                 }
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Cysharp.Threading.Tasks;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using StrattonStudios.EosioUnity;
@@ -35,14 +36,14 @@ namespace StrattonStudios.WcwUnity
 
         public virtual async UniTask<LoginResponse> Login()
         {
-            if (this.user == null)
+            if (user == null)
             {
                 await LoginViaWindow();
             }
 
-            if (this.user != null)
+            if (user != null)
             {
-                return this.user;
+                return user;
             }
 
             throw new WaxLoginException("Login Failed");
@@ -50,7 +51,7 @@ namespace StrattonStudios.WcwUnity
 
         public virtual async UniTask<bool> TryAutoLogin()
         {
-            if (this.user != null)
+            if (user != null)
             {
                 return true;
             }
@@ -72,7 +73,7 @@ namespace StrattonStudios.WcwUnity
         {
             if (!CanAutoSign(transaction))
             {
-                this.waxEventSource.PrepareSign($"{this.waxSigningURL}/cloud-wallet/signing/");
+                waxEventSource.PrepareSign($"{waxSigningURL}/cloud-wallet/signing/");
                 // TODO: Open popup window
                 // await window.open(url, "WaxPopup", "height=800,width=600");
             }
@@ -97,13 +98,13 @@ namespace StrattonStudios.WcwUnity
 
         public virtual async UniTask<bool> LoginViaWindow()
         {
-            var response = await this.waxEventSource.Login($"{this.waxSigningURL}/cloud-wallet/login/");
+            var response = await waxEventSource.Login($"{waxSigningURL}/cloud-wallet/login/");
             return ReceiveLogin(response);
         }
 
         public virtual async UniTask<bool> LoginViaEndpoint()
         {
-            var request = UnityWebRequest.Get($"{this.waxAutoSigningURL}login");
+            var request = UnityWebRequest.Get($"{waxAutoSigningURL}login");
 
             await request.SendWebRequest();
 
@@ -118,7 +119,7 @@ namespace StrattonStudios.WcwUnity
 
             // TODO: Should be removed, Debug only
             //Debug.Log(request.downloadHandler.text);
-            var data = JsonUtility.FromJson<PushTransactionResponse>(request.downloadHandler.text);
+            var data = JsonConvert.DeserializeObject<PushTransactionResponse>(request.downloadHandler.text);
             if (data == null || (data.processed != null && data.processed.except != null))
             {
                 throw new WaxLoginException(string.Format("Error returned from login endpoint {0}", request.downloadHandler.text));
@@ -130,7 +131,7 @@ namespace StrattonStudios.WcwUnity
 
         public virtual async UniTask<SigningResponse> SignViaWindow(byte[] serializedTransaction, bool noModify = false)
         {
-            var response = await this.waxEventSource.Sign($"{this.waxSigningURL}/cloud-wallet/signing/", serializedTransaction, noModify);
+            var response = await waxEventSource.Sign($"{waxSigningURL}/cloud-wallet/signing/", serializedTransaction, noModify);
             return ReceiveSignatures(response);
         }
 
@@ -139,7 +140,7 @@ namespace StrattonStudios.WcwUnity
             var postData = new SignViaEndpointRequest();
             postData.freeBandwidth = !noModify;
             postData.transaction = serializedTransaction;
-            var request = UnityWebRequest.Post(string.Format("{0}signing", this.waxAutoSigningURL), JsonUtility.ToJson(postData));
+            var request = UnityWebRequest.Post(string.Format("{0}signing", waxAutoSigningURL), JsonConvert.SerializeObject(postData));
             request.SetRequestHeader("Content-Type", "application/json");
 
             await request.SendWebRequest();
@@ -150,14 +151,14 @@ namespace StrattonStudios.WcwUnity
             if (request.isHttpError || request.isNetworkError)
 #endif
             {
-                this.whitelistedContracts.Clear();
+                whitelistedContracts.Clear();
 
                 throw new WaxSigningException(string.Format("Signing Endpoint Error {0} {1}", request.responseCode, request.error));
             }
 
             // TODO: Debug only
             Debug.Log(request.downloadHandler.text);
-            var data = JsonUtility.FromJson<PushTransactionResponse>(request.downloadHandler.text);
+            var data = JsonConvert.DeserializeObject<PushTransactionResponse>(request.downloadHandler.text);
             if (data == null || (data.processed != null && data.processed.except != null))
             {
                 throw new WaxLoginException(string.Format("Error returned from signing endpoint {0}", request.downloadHandler.text));
@@ -174,7 +175,7 @@ namespace StrattonStudios.WcwUnity
 
         protected virtual bool IsWhitelisted(Action action)
         {
-            return !!(this.whitelistedContracts != null && this.whitelistedContracts.Find(w =>
+            return !!(whitelistedContracts != null && whitelistedContracts.Find(w =>
             {
                 if (w.Contract == action.Account.Value)
                 {
@@ -202,15 +203,15 @@ namespace StrattonStudios.WcwUnity
                 throw new System.Exception("User does not have a blockchain account");
             }
 
-            this.user = response;
+            user = response;
 
             if (response.whitelistedContracts == null)
             {
-                this.whitelistedContracts = new List<WhitelistedContract>();
+                whitelistedContracts = new List<WhitelistedContract>();
             }
             else
             {
-                this.whitelistedContracts = new List<WhitelistedContract>(response.whitelistedContracts);
+                whitelistedContracts = new List<WhitelistedContract>(response.whitelistedContracts);
             }
 
             return true;

@@ -1,0 +1,19 @@
+{
+    "name": "StrattonStudios.AnchorLinkUnity.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:d36134f2e123c0f43ad5387e8acf95ba",
+        "GUID:8c7534f2f7cb6044c8d9c02c8f1d7ee8",
+        "GUID:04376767bc1f3b428aefa3d20743e819"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

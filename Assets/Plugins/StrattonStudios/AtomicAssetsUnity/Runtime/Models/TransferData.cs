@@ -1,33 +1,50 @@
 using Newtonsoft.Json;
-
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class TransferData
+    public partial class TransferData
     {
-
-        [JsonProperty("contract")]
+        /// <summary>Contract that owns the asset</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("contract")]
         public string Contract { get; set; }
 
-        [JsonProperty("transfer_id")]
+        /// <summary>The unique identifier for the transfer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("transfer_id")]
         public string TransferId { get; set; }
 
-        [JsonProperty("sender_name")]
+        /// <summary>The name of the sender.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("sender_name")]
         public string SenderName { get; set; }
 
-        [JsonProperty("recipient_name")]
+        /// <summary>The name of the recipient.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("recipient_name")]
         public string RecipientName { get; set; }
 
-        [JsonProperty("memo")]
+        /// <summary>The Memo included with the transfer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("memo")]
         public string Memo { get; set; }
 
-        [JsonProperty("assets")]
+        /// <summary>The assets associated with the transfer.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("assets")]
         public AssetData[] Assets { get; set; }
 
-        [JsonProperty("created_at_block")]
+        /// <summary>The date and time the block the transfer was included in was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_block")]
         public float CreatedAtBlock { get; set; }
 
-        [JsonProperty("created_at_time")]
+        /// <summary>The time at which the transfer was created.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("created_at_time")]
         public float CreatedAtTime { get; set; }
 
     }

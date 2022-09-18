@@ -1,21 +1,32 @@
 using Newtonsoft.Json;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class BurnData
-    {
+    public partial class BurnData
+    {     
 
-        [JsonProperty("account")]
+        /// <summary>The account that burned the asset.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("account")]
         public string Account { get; set; }
 
-        [JsonProperty("collections")]
+        /// <summary>The collection data for the burn.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("collections")]
         public CollectionData[] Collections { get; set; }
 
-        [JsonProperty("templates")]
+        /// <summary>The templates data in the burn.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("templates")]
         public TemplateData[] Templates { get; set; }
 
-        [JsonProperty("assets")]
+        /// <summary>The assets associated with the burn.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("assets")]
         public string Assets { get; set; }
 
     }

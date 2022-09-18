@@ -8,19 +8,23 @@ using UnityEngine;
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class BackedTokensData
+    public partial class BackedTokensData
     {
-
-        [JsonProperty("token_contract")]
+        /// <summary>The token contract of the backed token.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("token_contract")]
         public string TokenContract { get; set; }
-
-        [JsonProperty("token_symbol")]
+        /// <summary>The symbol of the backed token.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("token_symbol")]
         public string TokenSymbol { get; set; }
-
-        [JsonProperty("token_precision")]
+        /// <summary>The decimal precision of the token.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("token_precision")]
         public int TokenPrecision { get; set; }
-
-        [JsonProperty("amount")]
+        /// <summary>The amount of the backed token.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("amount")]
         public string Amount { get; set; }
 
     }

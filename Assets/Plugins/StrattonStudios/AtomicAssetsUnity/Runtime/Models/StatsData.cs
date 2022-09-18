@@ -1,17 +1,18 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
-
-using Newtonsoft.Json;
-
 using UnityEngine;
+
 
 namespace StrattonStudios.AtomicAssetsUnity.Models
 {
 
-    public class StatsData
+    public partial class StatsData
     {
 
-        [JsonProperty("template_mint")]
+        /// <summary>The mint number of the template.</summary>
+        /// <remarks>This is a property that is serialized as a JSON property.</remarks>
+        [property: JsonProperty("template_mint")]
         public int TemplateMint { get; set; }
 
     }

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using static UnityEditor.MaterialProperty;
-
 namespace StrattonStudios.EosioUnity.Models
 {
 
