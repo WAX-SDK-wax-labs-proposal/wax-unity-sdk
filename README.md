@@ -28,7 +28,7 @@ Here are some additional setup required for specific services.
 
 There is a sample included for Logging into the WAX Cloud Wallet and then Signing transactions using it.
 
-The example is available at **Assets/Plugins/WaxUnity/Example**
+The example is available at **Assets/Plugins/StrattonStudios/WcwUnity/Samples**
 
 #### Browser Setup
 
@@ -75,13 +75,13 @@ So if you want to use a custom template, make sure to assign the variable called
 
 There is a sample included for Logging into the Anchor Link and then Signing transactions using it.
 
-The example is available at **Assets/Plugins/AnchorLinkUnity/Example**
+The example is available at **Assets/Plugins/StrattonStudios/AnchorLinkUnity/Samples**
 
 #### Customization
 
 You can customize the dialog and other UIs inside the **Assets/Plugins/AnchorLinkUnity/Resources/AnchorLink** folder using the `AnchorLinkCanvas` prefab.
 
-The animations are available at **Assets/Plugins/AnchorLinkUnity/Animations** folder.
+The animations are available at **Assets/Plugins/StrattonStudios/AnchorLinkUnity/Animations** folder.
 
 ### Atomic Assets
 
@@ -89,7 +89,7 @@ The animations are available at **Assets/Plugins/AnchorLinkUnity/Animations** fo
 
 There are 2 sample included, one is a minimal Get API example and the other one is an Inventory demo.
 
-The examples are available at **Assets/Plugins/AtomicAssetsUnityClient/Example**
+The examples are available at **Assets/Plugins/StrattonStudios/AtomicAssetsUnity/Samples**
 
 ### EOS
 
@@ -97,7 +97,7 @@ The examples are available at **Assets/Plugins/AtomicAssetsUnityClient/Example**
 
 There are 2 samples included one is for encoding an EOS Signing Request and the other one is for decoding an EOS Signing Request.
 
-The examples are available at **Assets/Plugins/EosUnity/Example**
+The examples are available at **Assets/Plugins/StrattonStudios/EosioUnity/Samples**
 
 ## Credits
 
