@@ -12,11 +12,11 @@ This package includes base implementation for EOSIO blockchain and several other
 As this repo is pre packaging into managed Dlls you are required to install a number of libraries in order for the
 SDK to function, please install the following packages in the following order using the package manager within Unity as the installer window is added during the packaging stage.
 
-- [BouncyCastle](https://www.bouncycastle.org/csharp/index.html)
-- [ZXing.NET](https://github.com/micjahn/ZXing.Net)
-- [UniTask](https://github.com/Cysharp/UniTask)
+- [BouncyCastle](https://www.bouncycastle.org/csharp/index.html) ([included inside the repository](https://github.com/WAX-SDK-wax-labs-proposal/wax-unity-sdk/tree/main/Assets/Plugins/BouncyCastle))
+- [ZXing.NET](https://github.com/micjahn/ZXing.Net) ([included inside the repository](https://github.com/WAX-SDK-wax-labs-proposal/wax-unity-sdk/tree/main/Assets/Plugins/ZXing.Net))
+- [UniTask](https://github.com/Cysharp/UniTask) `https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask`
 - [Newtonsoft.Json](https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@latest) `com.unity.nuget.newtonsoft-json`
-- [NativeWebSocket](https://github.com/endel/NativeWebSocket)
+- [NativeWebSocket](https://github.com/endel/NativeWebSocket) `https://github.com/endel/NativeWebSocket.git#upm`
 
 ## Setup
 
@@ -28,7 +28,7 @@ Here are some additional setup required for specific services.
 
 There is a sample included for Logging into the WAX Cloud Wallet and then Signing transactions using it.
 
-The example is available at **Assets/Plugins/WaxUnity/Example**
+The example is available at **Assets/Plugins/StrattonStudios/WcwUnity/Samples**
 
 #### Browser Setup
 
@@ -75,13 +75,13 @@ So if you want to use a custom template, make sure to assign the variable called
 
 There is a sample included for Logging into the Anchor Link and then Signing transactions using it.
 
-The example is available at **Assets/Plugins/AnchorLinkUnity/Example**
+The example is available at **Assets/Plugins/StrattonStudios/AnchorLinkUnity/Samples**
 
 #### Customization
 
 You can customize the dialog and other UIs inside the **Assets/Plugins/AnchorLinkUnity/Resources/AnchorLink** folder using the `AnchorLinkCanvas` prefab.
 
-The animations are available at **Assets/Plugins/AnchorLinkUnity/Animations** folder.
+The animations are available at **Assets/Plugins/StrattonStudios/AnchorLinkUnity/Animations** folder.
 
 ### Atomic Assets
 
@@ -89,7 +89,7 @@ The animations are available at **Assets/Plugins/AnchorLinkUnity/Animations** fo
 
 There are 2 sample included, one is a minimal Get API example and the other one is an Inventory demo.
 
-The examples are available at **Assets/Plugins/AtomicAssetsUnityClient/Example**
+The examples are available at **Assets/Plugins/StrattonStudios/AtomicAssetsUnity/Samples**
 
 ### EOS
 
@@ -97,7 +97,7 @@ The examples are available at **Assets/Plugins/AtomicAssetsUnityClient/Example**
 
 There are 2 samples included one is for encoding an EOS Signing Request and the other one is for decoding an EOS Signing Request.
 
-The examples are available at **Assets/Plugins/EosUnity/Example**
+The examples are available at **Assets/Plugins/StrattonStudios/EosioUnity/Samples**
 
 ## Credits
 
