@@ -37,7 +37,10 @@ namespace StrattonStudios.AtomicAssetsUnity.Examples
             OnRequest("Retrieving assets ...");
             try
             {
-                var result = await this.client.HttpApi.GetAssetsAsync();
+                var request = new GetAssetsRequest();
+                request.CollectionName = "bcbrawlers";
+                request.Owner = "e1uvu.wam";
+                var result = await this.client.HttpApi.GetAssetsAsync(request);
                 Debug.Log("Here are the assets:");
                 for (int i = 0; i < result.Data.Length; i++)
                 {

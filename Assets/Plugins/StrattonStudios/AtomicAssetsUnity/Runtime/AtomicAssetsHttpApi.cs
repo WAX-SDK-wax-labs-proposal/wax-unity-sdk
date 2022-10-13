@@ -358,7 +358,6 @@ namespace StrattonStudios.AtomicAssetsUnity.Api
 
         protected virtual T DeserializeJson<T>(string json)
         {
-            Debug.Log(json);
             return JsonConvert.DeserializeObject<T>(json);
         }
 
@@ -380,7 +379,7 @@ namespace StrattonStudios.AtomicAssetsUnity.Api
             {
                 postData = SerializeJson(request);
             }
-            var uwr = UnityWebRequest.Post(uri, postData);
+            using var uwr = UnityWebRequest.Post(uri, postData);
             switch (Application.platform)
             {
                 default:
@@ -407,7 +406,7 @@ namespace StrattonStudios.AtomicAssetsUnity.Api
         {
             var urlBuilder = new StringBuilder(BaseUrl).Append("/" + endpoint);
             var uri = urlBuilder.ToString();
-            var uwr = UnityWebRequest.Post(uri, formData);
+            using var uwr = UnityWebRequest.Post(uri, formData);
             PrepareRequest(uwr);
             try
             {
@@ -434,7 +433,7 @@ namespace StrattonStudios.AtomicAssetsUnity.Api
                 urlBuilder.Append("?" + queryString);
             }
             var uri = urlBuilder.ToString();
-            var uwr = UnityWebRequest.Get(uri);
+            using var uwr = UnityWebRequest.Get(uri);
             PrepareRequest(uwr);
             try
             {

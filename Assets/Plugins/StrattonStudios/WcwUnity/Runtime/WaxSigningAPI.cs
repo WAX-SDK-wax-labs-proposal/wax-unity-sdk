@@ -36,14 +36,14 @@ namespace StrattonStudios.WcwUnity
 
         public virtual async UniTask<LoginResponse> Login()
         {
-            if (user == null)
+            if (this.user == null)
             {
                 await LoginViaWindow();
             }
 
-            if (user != null)
+            if (this.user != null)
             {
-                return user;
+                return this.user;
             }
 
             throw new WaxLoginException("Login Failed");
@@ -51,7 +51,7 @@ namespace StrattonStudios.WcwUnity
 
         public virtual async UniTask<bool> TryAutoLogin()
         {
-            if (user != null)
+            if (this.user != null)
             {
                 return true;
             }
@@ -73,7 +73,7 @@ namespace StrattonStudios.WcwUnity
         {
             if (!CanAutoSign(transaction))
             {
-                waxEventSource.PrepareSign($"{waxSigningURL}/cloud-wallet/signing/");
+                this.waxEventSource.PrepareSign($"{this.waxSigningURL}/cloud-wallet/signing/");
                 // TODO: Open popup window
                 // await window.open(url, "WaxPopup", "height=800,width=600");
             }
@@ -98,13 +98,13 @@ namespace StrattonStudios.WcwUnity
 
         public virtual async UniTask<bool> LoginViaWindow()
         {
-            var response = await waxEventSource.Login($"{waxSigningURL}/cloud-wallet/login/");
+            var response = await this.waxEventSource.Login($"{this.waxSigningURL}/cloud-wallet/login/");
             return ReceiveLogin(response);
         }
 
         public virtual async UniTask<bool> LoginViaEndpoint()
         {
-            var request = UnityWebRequest.Get($"{waxAutoSigningURL}login");
+            using var request = UnityWebRequest.Get($"{this.waxAutoSigningURL}login");
 
             await request.SendWebRequest();
 
@@ -131,7 +131,7 @@ namespace StrattonStudios.WcwUnity
 
         public virtual async UniTask<SigningResponse> SignViaWindow(byte[] serializedTransaction, bool noModify = false)
         {
-            var response = await waxEventSource.Sign($"{waxSigningURL}/cloud-wallet/signing/", serializedTransaction, noModify);
+            var response = await this.waxEventSource.Sign($"{this.waxSigningURL}/cloud-wallet/signing/", serializedTransaction, noModify);
             return ReceiveSignatures(response);
         }
 
@@ -140,7 +140,7 @@ namespace StrattonStudios.WcwUnity
             var postData = new SignViaEndpointRequest();
             postData.freeBandwidth = !noModify;
             postData.transaction = serializedTransaction;
-            var request = UnityWebRequest.Post(string.Format("{0}signing", waxAutoSigningURL), JsonConvert.SerializeObject(postData));
+            using var request = UnityWebRequest.Post(string.Format("{0}signing", this.waxAutoSigningURL), JsonConvert.SerializeObject(postData));
             request.SetRequestHeader("Content-Type", "application/json");
 
             await request.SendWebRequest();
@@ -151,7 +151,7 @@ namespace StrattonStudios.WcwUnity
             if (request.isHttpError || request.isNetworkError)
 #endif
             {
-                whitelistedContracts.Clear();
+                this.whitelistedContracts.Clear();
 
                 throw new WaxSigningException(string.Format("Signing Endpoint Error {0} {1}", request.responseCode, request.error));
             }
@@ -175,7 +175,7 @@ namespace StrattonStudios.WcwUnity
 
         protected virtual bool IsWhitelisted(Action action)
         {
-            return !!(whitelistedContracts != null && whitelistedContracts.Find(w =>
+            return !!(this.whitelistedContracts != null && this.whitelistedContracts.Find(w =>
             {
                 if (w.Contract == action.Account.Value)
                 {
@@ -203,15 +203,15 @@ namespace StrattonStudios.WcwUnity
                 throw new System.Exception("User does not have a blockchain account");
             }
 
-            user = response;
+            this.user = response;
 
             if (response.whitelistedContracts == null)
             {
-                whitelistedContracts = new List<WhitelistedContract>();
+                this.whitelistedContracts = new List<WhitelistedContract>();
             }
             else
             {
-                whitelistedContracts = new List<WhitelistedContract>(response.whitelistedContracts);
+                this.whitelistedContracts = new List<WhitelistedContract>(response.whitelistedContracts);
             }
 
             return true;

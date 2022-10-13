@@ -118,7 +118,7 @@ namespace StrattonStudios.AnchorLinkUnity
             {
                 try
                 {
-                    var request = UnityWebRequest.Get(url);
+                    using var request = UnityWebRequest.Get(url);
                     await request.SendWebRequest();
                     if (request.responseCode == 408)
                     {

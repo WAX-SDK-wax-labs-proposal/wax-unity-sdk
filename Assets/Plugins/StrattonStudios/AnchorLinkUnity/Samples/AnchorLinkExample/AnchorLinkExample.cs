@@ -44,6 +44,7 @@ namespace StrattonStudios.AnchorLinkUnity.Samples
             // Uses an encrypted secure storage that wraps around any storage provider
             this.options.Storage = new LinkSecureStorage(new LinkPlayerPrefsStorage(), this.password);
             this.options.Transport = new LinkUnityUGUITransport();
+            this.options.SocketHandler = LinkWebSocketHandler.Instance;
 
             // Remove the trailing slash if there are any
             if (this.nodeUrl.EndsWith('/'))

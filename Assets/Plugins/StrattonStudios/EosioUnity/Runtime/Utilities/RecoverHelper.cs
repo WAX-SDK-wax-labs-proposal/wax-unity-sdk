@@ -35,7 +35,7 @@ namespace StrattonStudios.EosioUnity.Utilities
             ECPoint Q = Recover(msgHash, sig, rec, true);
 
             byte[] qEnc = Q.GetEncoded(comp);
-            UnityEngine.Debug.Log("Q: " + Hex.ToHexString(qEnc));
+            //UnityEngine.Debug.Log("Q: " + Hex.ToHexString(qEnc));
 
             byte[] qHash = DigestUtilities.CalculateDigest("RIPEMD-160", DigestUtilities.CalculateDigest("SHA-256", qEnc));
             return Q.GetEncoded(true);

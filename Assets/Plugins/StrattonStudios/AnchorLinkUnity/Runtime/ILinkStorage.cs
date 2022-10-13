@@ -38,6 +38,13 @@ namespace StrattonStudios.AnchorLinkUnity
         /// <param name="key">The key to remove</param>
         UniTask Remove(string key);
 
+        /// <summary>
+        /// Checks whether the given key exists in the storage.
+        /// </summary>
+        /// <param name="key">The key to check</param>
+        /// <returns>Returns true if the key exists, otherwise false</returns>
+        UniTask<bool> Exists(string key);
+
     }
 
 }

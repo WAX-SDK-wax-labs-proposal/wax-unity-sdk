@@ -99,15 +99,15 @@ namespace StrattonStudios.AnchorLinkUnity
             try
             {
                 var savedData = await this.storage.Read(key);
+                if (string.IsNullOrEmpty(savedData))
+                {
+                    return null;
+                }
                 var encryptedBytes = System.Convert.FromBase64String(savedData);
                 var dataBytes = new byte[encryptedBytes.Length];
-                using (var stream = new MemoryStream(encryptedBytes))
-                {
-                    using (var cryptoStream = GetCryptoStream(stream, CryptoStreamMode.Read))
-                    {
-                        cryptoStream.Read(dataBytes, 0, dataBytes.Length);
-                    }
-                }
+                using var stream = new MemoryStream(encryptedBytes);
+                using var cryptoStream = GetCryptoStream(stream, CryptoStreamMode.Read);
+                cryptoStream.Read(dataBytes, 0, dataBytes.Length);
                 return Encoding.UTF8.GetString(dataBytes);
             }
             catch (System.Exception e)
@@ -118,6 +118,11 @@ namespace StrattonStudios.AnchorLinkUnity
                 // Backwards compatibility
                 return await this.storage.Read(key);
             }
+        }
+
+        public UniTask<bool> Exists(string key)
+        {
+            return this.storage.Exists(key);
         }
 
         public UniTask Remove(string key)

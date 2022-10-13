@@ -91,7 +91,7 @@ namespace StrattonStudios.EosioUnity.Serialization
 
         public static void WriteBoolean(BinaryWriter writer, object data)
         {
-            var value = System.Convert.ToBoolean(data);
+            var value = System.Convert.ToByte(data);
             writer.Write(value);
         }
 
@@ -225,19 +225,23 @@ namespace StrattonStudios.EosioUnity.Serialization
         public static void WriteString(BinaryWriter writer, object data)
         {
             var value = (string)data;
-            writer.Write(value);
+            //writer.Write(value);
 
-            //var bytes = Encoding.UTF8.GetBytes(value);
-            //WriteVarUInt32(writer, (uint)bytes.Length);
-            //if (bytes.Length > 0)
-            //{
-            //    writer.Write(bytes, 0, bytes.Length);
-            //}
+            var bytes = Encoding.UTF8.GetBytes(value);
+            WriteVarUInt32(writer, (uint)bytes.Length);
+            if (bytes.Length > 0)
+            {
+                writer.Write(bytes, 0, bytes.Length);
+            }
         }
 
         public static void WriteName(BinaryWriter writer, object data)
         {
             var value = (string)data;
+            //if (!Regex.IsMatch(value, "/^[.1-5a-z]{0,12}[.1-5a-j]?$/"))
+            //{
+            //    throw new System.Exception("Name should be less than 13 characters, or less than 14 if last character is between 1-5 or a-j, and only contain the following symbols .12345abcdefghijklmnopqrstuvwxyz");
+            //}
             var a = EosioNameUtility.ConvertNameToBytes(value);
             writer.Write(a, 0, 8);
         }

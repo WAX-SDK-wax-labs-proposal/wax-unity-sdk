@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using StrattonStudios.AnchorLinkUnity.Utilities;
-
 using Cryptography.ECDSA;
 
 using Cysharp.Threading.Tasks;
@@ -11,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+using StrattonStudios.AnchorLinkUnity.Utilities;
 using StrattonStudios.EosioUnity;
 using StrattonStudios.EosioUnity.Models;
 using StrattonStudios.EosioUnity.Serialization;
@@ -453,16 +452,28 @@ namespace StrattonStudios.AnchorLinkUnity
             {
 
                 // otherwise we use the session list to filter down to most recently used matching given params
-                var list = await ListSessions(identifier);
-                if (list == null || list.Count == 0)
+                try
                 {
+                    var list = await ListSessions(identifier);
+                    if (list == null || list.Count == 0)
+                    {
+                        return null;
+                    }
+                    var latest = list[0];
+                    key = SessionKey(identifier, FormatAuth(latest));
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogException(e);
                     return null;
                 }
-                var latest = list[0];
-                key = SessionKey(identifier, FormatAuth(latest));
+            }
+            if (!await this.Storage.Exists(key))
+            {
+                return null;
             }
             var data = await this.Storage.Read(key);
-            if (data == null)
+            if (string.IsNullOrEmpty(data))
             {
                 return null;
             }
@@ -505,6 +516,10 @@ namespace StrattonStudios.AnchorLinkUnity
             var list = new List<SerializablePermissionLevel>();
             try
             {
+                if (!await this.Storage.Exists(key))
+                {
+                    return null;
+                }
                 var json = await this.Storage.Read(key);
                 list = JsonConvert.DeserializeObject<List<SerializablePermissionLevel>>(json);
                 //var array = JArray.Parse(json);

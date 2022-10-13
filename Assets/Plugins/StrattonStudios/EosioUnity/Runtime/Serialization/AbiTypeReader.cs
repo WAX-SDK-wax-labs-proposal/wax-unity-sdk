@@ -109,7 +109,8 @@ namespace StrattonStudios.EosioUnity.Serialization
 
         public static bool ReadBoolean(BinaryReader reader)
         {
-            return reader.ReadBoolean();
+            return ReadByte(reader) == 1;
+            //return reader.ReadBoolean();
         }
 
         //
@@ -170,19 +171,19 @@ namespace StrattonStudios.EosioUnity.Serialization
             return BigNumberUtility.ConvertBinaryToDecimal(bytes);
         }
 
-        private static long ReadVarInt32(BinaryReader reader)
+        private static int ReadVarInt32(BinaryReader reader)
         {
             var v = ReadVarUInt32(reader);
 
             if ((v & 1) != 0)
-                return (long)((~v) >> 1) | 0x80000000;
+                return (int)(((~v) >> 1) | 0x80000000);
             else
-                return (long)v >> 1;
+                return (int)(v >> 1);
         }
 
-        public static ulong ReadVarUInt32(BinaryReader reader)
+        public static uint ReadVarUInt32(BinaryReader reader)
         {
-            ulong v = 0;
+            uint v = 0;
             int bit = 0;
             while (true)
             {
@@ -190,7 +191,9 @@ namespace StrattonStudios.EosioUnity.Serialization
                 v |= (uint)((b & 0x7f) << bit);
                 bit += 7;
                 if ((b & 0x80) == 0)
+                {
                     break;
+                }
             }
             return v >> 0;
         }
@@ -211,6 +214,7 @@ namespace StrattonStudios.EosioUnity.Serialization
 
         public static decimal ReadFloat128(BinaryReader reader)
         {
+            //return HexUtility.ToHexString(reader.ReadBytes(16));
             return reader.ReadDecimal();
         }
 
@@ -243,7 +247,15 @@ namespace StrattonStudios.EosioUnity.Serialization
 
         public static string ReadString(BinaryReader reader)
         {
-            return reader.ReadString();
+            var size = System.Convert.ToInt32(ReadVarUInt32(reader));
+            string value = null;
+            if (size > 0)
+            {
+                value = Encoding.UTF8.GetString(reader.ReadBytes(size));
+            }
+            return value;
+            //var value = reader.ReadString();
+            //return value;
         }
 
         public static string ReadName(BinaryReader reader)
@@ -358,7 +370,7 @@ namespace StrattonStudios.EosioUnity.Serialization
 
         public static string ReadSymbolString(BinaryReader reader)
         {
-            var value = (Symbol)ReadSymbol(reader);
+            var value = ReadSymbol(reader);
             return value.precision + ',' + value.name;
         }
 
@@ -368,8 +380,12 @@ namespace StrattonStudios.EosioUnity.Serialization
 
             int len;
             for (len = 0; len < a.Length; ++len)
+            {
                 if (a[len] == 0)
+                {
                     break;
+                }
+            }
 
             return string.Join("", a.Take(len));
         }
@@ -697,18 +713,25 @@ namespace StrattonStudios.EosioUnity.Serialization
         public static List<AbiTable> ReadAbiTableList(BinaryReader reader)
         {
             var size = System.Convert.ToInt32(ReadVarUInt32(reader));
-            List<AbiTable> items = new List<AbiTable>();
+            var items = new List<AbiTable>();
 
             for (int i = 0; i < size; i++)
             {
-                items.Add(new AbiTable()
-                {
-                    name = ReadName(reader),
-                    index_type = ReadString(reader),
-                    key_names = ReadType<List<string>>(reader),
-                    key_types = ReadType<List<string>>(reader),
-                    type = ReadString(reader)
-                });
+                var table = new AbiTable();
+                table.name = ReadName(reader);
+                table.index_type = ReadString(reader);
+                table.key_names = ReadType<List<string>>(reader);
+                table.key_types = ReadType<List<string>>(reader);
+                table.type = ReadString(reader);
+                items.Add(table);
+                //items.Add(new AbiTable()
+                //{
+                //    name = ReadName(reader),
+                //    index_type = ReadString(reader),
+                //    key_names = ReadType<List<string>>(reader),
+                //    key_types = ReadType<List<string>>(reader),
+                //    type = ReadString(reader)
+                //});
             }
 
             return items;
@@ -898,7 +921,6 @@ namespace StrattonStudios.EosioUnity.Serialization
             var collectionType = GetFirstGenericType(objectType);
             var size = System.Convert.ToInt32(ReadVarUInt32(reader));
             IList items = (IList)System.Activator.CreateInstance(objectType);
-
             for (int i = 0; i < size; i++)
             {
                 items.Add(ReadType(reader, collectionType));

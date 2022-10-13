@@ -2,14 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using StrattonStudios.AnchorLinkUnity.Utilities;
-
 using Cryptography.ECDSA;
 
 using Cysharp.Threading.Tasks;
 
 using Newtonsoft.Json;
 
+using StrattonStudios.AnchorLinkUnity.Utilities;
 using StrattonStudios.EosioUnity;
 using StrattonStudios.EosioUnity.Serialization;
 using StrattonStudios.EosioUnity.Signing;
@@ -147,7 +146,7 @@ namespace StrattonStudios.AnchorLinkUnity
             {
                 new MultipartFormDataSection(payload)
             };
-            var postRequest = UnityWebRequest.Post(this.channelUrl, postData);
+            using var postRequest = UnityWebRequest.Post(this.channelUrl, postData);
             postRequest.SetRequestHeader("X-Buoy-Soft-Wait", "10");
             await postRequest.SendWebRequest();
 

@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 
 using StrattonStudios.EosioUnity.Models;
+using StrattonStudios.Networking.Http.Query;
 
 using UnityEngine;
 using UnityEngine.Networking;
@@ -104,7 +105,7 @@ namespace StrattonStudios.EosioUnity.Api
             {
                 postData = SerializeJson(request);
             }
-            var uwr = new UnityWebRequest(uri, UnityWebRequest.kHttpVerbPOST)
+            using var uwr = new UnityWebRequest(uri, UnityWebRequest.kHttpVerbPOST)
             {
                 uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(postData)),
                 downloadHandler = new DownloadHandlerBuffer()
@@ -135,7 +136,7 @@ namespace StrattonStudios.EosioUnity.Api
         {
             var urlBuilder = new StringBuilder(BaseUrl).Append("/" + endpoint);
             var uri = urlBuilder.ToString();
-            var uwr = UnityWebRequest.Post(uri, formData);
+            using var uwr = UnityWebRequest.Post(uri, formData);
             PrepareRequest(uwr);
             try
             {
@@ -149,15 +150,20 @@ namespace StrattonStudios.EosioUnity.Api
             return DeserializeJson<TResponse>(json);
         }
 
-        protected virtual async UniTask<TResponse> MakeGetJsonRequest<TResponse>(string endpoint, string query = null)
+        protected virtual async UniTask<TResponse> MakeGetJsonRequest<TResponse>(string endpoint, object query = null)
         {
             var urlBuilder = new StringBuilder(BaseUrl).Append("/" + endpoint);
-            if (!string.IsNullOrEmpty(query))
+            string queryString = null;
+            if (query != null)
             {
-                urlBuilder.Append("?" + query);
+                queryString = HttpQueryConvert.SerializeObject(query);
+            }
+            if (!string.IsNullOrEmpty(queryString))
+            {
+                urlBuilder.Append("?" + queryString);
             }
             var uri = urlBuilder.ToString();
-            var uwr = UnityWebRequest.Get(uri);
+            using var uwr = UnityWebRequest.Get(uri);
             PrepareRequest(uwr);
             try
             {

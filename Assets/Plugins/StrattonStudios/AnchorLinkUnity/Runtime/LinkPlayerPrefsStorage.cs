@@ -19,6 +19,11 @@ namespace StrattonStudios.AnchorLinkUnity
             return UniTask.FromResult(PlayerPrefs.GetString(key));
         }
 
+        public UniTask<bool> Exists(string key)
+        {
+            return UniTask.FromResult(PlayerPrefs.HasKey(key));
+        }
+
         public UniTask Remove(string key)
         {
             PlayerPrefs.DeleteKey(key);

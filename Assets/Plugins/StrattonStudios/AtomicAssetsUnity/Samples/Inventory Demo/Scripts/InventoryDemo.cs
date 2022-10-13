@@ -71,7 +71,7 @@ namespace StrattonStudios.AtomicAssetsUnity.Examples
                             try
                             {
                                 string url = string.Format("https://ipfs.io/ipfs/{0}", asset.Template.ImmutableData.Image);
-                                var request = UnityWebRequestTexture.GetTexture(url);
+                                using var request = UnityWebRequestTexture.GetTexture(url);
                                 await request.SendWebRequest();
                                 texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
                             }
