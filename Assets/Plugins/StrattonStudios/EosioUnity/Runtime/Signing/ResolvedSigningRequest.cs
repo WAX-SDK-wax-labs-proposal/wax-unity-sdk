@@ -17,14 +17,20 @@ namespace StrattonStudios.EosioUnity.Signing
     public class ResolvedSigningRequest
     {
 
+        #region Fields
+
         public readonly SigningRequest SigningRequest;
         public readonly PermissionLevel Signer;
         public readonly Transaction Transaction;
         public readonly byte[] SerializedTransaction;
 
+        #endregion
+
+        #region Static Initializers
+
         public static async UniTask<ResolvedSigningRequest> FromPayload(JObject payload, SigningRequestEncodingOptions options)
         {
-            var request = SigningRequest.From((string)payload["req"], options);
+            var request = SigningRequestFactory.CreateFromUri((string)payload["req"], options);
             var abis = await request.FetchAbis();
             var transaction = new TransactionContext();
             transaction.RefBlockNum = ushort.Parse((string)payload["rbn"]);
@@ -41,6 +47,10 @@ namespace StrattonStudios.EosioUnity.Signing
             return await request.Resolve(abis, new PermissionLevel((string)payload["sa"], (string)payload["sp"]), transaction);
         }
 
+        #endregion
+
+        #region Constructors
+
         public ResolvedSigningRequest(SigningRequest request, PermissionLevel signer, Transaction transaction, byte[] serializedTransaction)
         {
             this.SigningRequest = request;
@@ -48,6 +58,10 @@ namespace StrattonStudios.EosioUnity.Signing
             this.Transaction = transaction;
             this.SerializedTransaction = serializedTransaction;
         }
+
+        #endregion
+
+        #region Public Methods
 
         public byte[] GetSerializedTransaction()
         {
@@ -106,19 +120,6 @@ namespace StrattonStudios.EosioUnity.Signing
                 text = text.Substring(0, text.Length - 2);
                 return payload.ContainsKey(text) ? payload[text] : "";
             });
-
-            //Pattern pattern = Pattern.compile("(\\{\\{([a-z0-9]+)\\}\\})");
-            //Matcher matcher = pattern.matcher(this.gSigningRequest.GetCallback());
-            //StringBuffer url = new StringBuffer(this.gSigningRequest.GetCallback().length());
-            //while (matcher.find())
-            //{
-            //    string text = matcher.group(0);
-            //    text = text.substring(2);
-            //    text = text.substring(0, text.length() - 2);
-            //    matcher.appendReplacement(url, payload.containsKey(text) ? String.valueOf(payload.get(text)) : "");
-            //}
-            //matcher.appendTail(url);
-            //string callbackUrl = url.toString();
             return new ResolvedCallback(callback, this.SigningRequest.GetRequestFlag().IsBackground(), payload);
         }
 
@@ -135,6 +136,8 @@ namespace StrattonStudios.EosioUnity.Signing
             proof.signature = signature;
             return proof;
         }
+
+        #endregion
 
     }
 

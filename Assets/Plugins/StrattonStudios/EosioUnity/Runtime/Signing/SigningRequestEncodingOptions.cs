@@ -10,19 +10,19 @@ namespace StrattonStudios.EosioUnity.Signing
     {
 
         /// <summary>
-        /// Optional zlib, if provided the request will be compressed when encoding.
+        /// Gets or sets the zlib, if provided the request will be compressed when encoding. (Optional)
         /// </summary>
-        public IZlibProvider zlib;
+        public IZlibProvider Zlib { get; set; }
 
         /// <summary>
-        /// Abi provider, required if the arguments contain un-encoded actions.
+        /// Gets or sets the Abi provider, required if the arguments contain un-encoded actions.
         /// </summary>
-        public IAbiProvider abiProvider;
+        public IAbiProvider AbiProvider { get; set; }
 
         /// <summary>
         /// Optional signature provider, will be used to create a request signature if provided.
         /// </summary>
-        public ISignatureProvider signatureProvider;
+        public ISignatureProvider SignatureProvider { get; set; }
 
     }
 

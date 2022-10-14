@@ -9,8 +9,14 @@ namespace StrattonStudios.EosioUnity.Signing
     public class SigningRequestCommonArgs
     {
 
+        #region Fields
+
         protected Chain chainId = Chain.WAX;
         protected ChainType chainType = ChainType.Mainnet;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Chain ID to use, can be set to `null` for a multi-chain request.
@@ -31,7 +37,7 @@ namespace StrattonStudios.EosioUnity.Signing
         }
 
         /// <summary>
-        /// Chain IDs to constrain a multi-chain request to.
+        /// Chain IDs to constrain a multi-chain request to. (to be implemented for protocol version 3)
         /// </summary>
         /// <remarks>
         /// Only considered if <see cref="ChainId"/> is explicitly set to <c>null</c>.
@@ -66,6 +72,8 @@ namespace StrattonStudios.EosioUnity.Signing
                 }
             }
         }
+
+        #endregion
 
     }
 

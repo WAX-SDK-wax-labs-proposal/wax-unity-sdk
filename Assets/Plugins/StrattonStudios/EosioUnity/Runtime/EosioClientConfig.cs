@@ -10,11 +10,17 @@ namespace StrattonStudios.EosioUnity
     public class EosioClientConfig
     {
 
+        #region Fields
+
         protected string httpEndpoint = "http://127.0.0.1:8888";
         protected ChainType chainType = ChainType.Mainnet;
         protected string chainId = Chain.WAX.GetId();
         protected double expireSeconds = 60;
         protected uint blocksBehind = 3;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets the URL of the server that provides a Chain API specified by <see cref="ChainId"/>.
@@ -106,6 +112,8 @@ namespace StrattonStudios.EosioUnity
         /// Gets or sets the signature implementation to handle available keys and signing transactions. Use the DefaultSignProvider with a privateKey to sign transactions inside the lib.
         /// </summary>
         public IEosioSignProvider SignProvider { get; set; }
+
+        #endregion
 
     }
 

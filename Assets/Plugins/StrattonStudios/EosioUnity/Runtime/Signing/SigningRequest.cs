@@ -39,326 +39,6 @@ namespace StrattonStudios.EosioUnity.Signing
 
         #endregion
 
-        #region Static Initializers
-
-        /// <summary>
-        /// Create a new signing request.
-        /// </summary>
-        /// <param name="args">The signing request arguments</param>
-        /// <param name="options">The signing request options</param>
-        /// <returns>Returns the signing request</returns>
-        /// <exception cref="System.ArgumentNullException"></exception>
-        public static async UniTask<SigningRequest> Create(SigningRequestCreateArgs args, SigningRequestEncodingOptions options)
-        {
-            List<Action> actions = new List<Action>();
-            if (args.action != null)
-            {
-                actions.Add(args.action);
-            }
-            else if (args.actions != null)
-            {
-                actions.AddRange(args.actions.GetActions());
-            }
-            else if (args.transaction != null)
-            {
-                actions.AddRange(args.transaction.Actions);
-            }
-            actions = actions.FindAll(action =>
-            {
-                return !action.Data.IsPacked();
-            });
-            var accounts = actions.ConvertAll(action =>
-            {
-                return action.Account.Value;
-            });
-            var abis = new Dictionary<string, Abi>();
-            if (accounts.Count != 0)
-            {
-                var provider = options.abiProvider;
-                if (provider == null)
-                {
-                    throw new System.ArgumentNullException("Missing abi provider");
-                }
-                for (int i = 0; i < accounts.Count; i++)
-                {
-                    abis[accounts[i]] = await provider.GetAbi(accounts[i]);
-                }
-            }
-            return await Create(args, options, abis);
-        }
-
-        /// <summary>
-        /// Synchronously create a new signing request.
-        /// </summary>
-        /// <remarks>
-        /// Throws error If an un-encoded action with no ABI definition is encountered.
-        /// </remarks>
-        /// <param name="args">The signing request arguments</param>
-        /// <param name="options">The signing request options</param>
-        /// <param name="abis">The ABIs mapping</param>
-        /// <returns>Returns the signing request</returns>
-        /// <exception cref="System.InvalidOperationException"></exception>
-        /// <exception cref="System.ArgumentException"></exception>
-        public static async UniTask<SigningRequest> Create(SigningRequestCreateArgs args, SigningRequestEncodingOptions options, Dictionary<string, Abi> abis)
-        {
-            bool isIdentity = false;
-            IESRRequest requestData;
-            int version = 2;
-            System.Action<Action> encode = (action) =>
-            {
-                if (action.Data.IsPacked())
-                {
-                    return;
-                }
-                var serializer = new AbiTypeWriter(null);
-                action.Data.SetData(HexUtility.ToHexString(serializer.PackActionData(action, abis[action.Account.Value])));
-            };
-
-            // TODO: Implement multi-chain requests
-
-            // The multi-chain requests require version 3 as it is not yet supported
-            if (args.ChainId == null)
-            {
-                version = 3;
-                throw new System.NotImplementedException("The protocol version 3 is not implemented");
-            }
-
-            // Set the request data
-            //if (args.identityV3 != null)
-            //{
-            //    version = 3;
-            //    requestData = args.identityV3;
-            //    isIdentity = true;
-            //}
-            //else 
-            if (args.identityV2 != null)
-            {
-                if (version == 3)
-                {
-                    throw new System.InvalidOperationException("Cannot use protocol version 3 with " + nameof(IdentityV2));
-                }
-                requestData = args.identityV2;
-                isIdentity = true;
-            }
-            else if (args.action != null && args.actions == null && args.transaction == null)
-            {
-                requestData = args.action;
-            }
-            else if (args.actions != null && args.action == null && args.transaction == null)
-            {
-                if (args.actions.GetActions().Count == 1)
-                {
-                    requestData = args.actions.GetActions()[0];
-                }
-                else
-                {
-                    requestData = args.actions;
-                }
-            }
-            else if (args.transaction != null && args.action == null && args.actions == null)
-            {
-                var tx = args.transaction;
-
-                // Set the default values of the transaction if they're missing
-                if (string.IsNullOrEmpty(tx.Expiration))
-                {
-                    tx.Expiration = TransactionHeader.DEFAULT_EXPIRATION;
-                }
-                if (tx.RefBlockNum == null || !tx.RefBlockNum.HasValue)
-                {
-                    tx.RefBlockNum = 0;
-                }
-                if (tx.RefBlockPrefix == null || !tx.RefBlockPrefix.HasValue)
-                {
-                    tx.RefBlockPrefix = 0;
-                }
-                if (tx.ContextFreeActions == null)
-                {
-                    tx.ContextFreeActions = new List<Action>();
-                }
-                if (tx.TransactionExtensions == null)
-                {
-                    tx.TransactionExtensions = new List<Extension>();
-                }
-                if (tx.DelaySec == null || !tx.DelaySec.HasValue)
-                {
-                    tx.DelaySec = 0;
-                }
-                if (tx.MaxNetUsageMs == null || !tx.MaxNetUsageMs.HasValue)
-                {
-                    tx.MaxNetUsageMs = 0;
-                }
-                if (tx.MaxNetUsageWords == null || !tx.MaxNetUsageWords.HasValue)
-                {
-                    tx.MaxNetUsageWords = 0;
-                }
-                if (tx.Actions == null)
-                {
-                    tx.Actions = new List<Action>();
-                }
-
-                // Iterate through actions and encode as needed
-                tx.Actions.ForEach(encode);
-                requestData = tx;
-            }
-            else
-            {
-                throw new System.ArgumentException("Invalid arguments: Must have exactly one of action, actions or transaction");
-            }
-
-            // Set the Chain ID for the request
-            Chain chainId;
-            if (args.ChainId == null)
-            {
-
-                // Use EOS if no chain is specified
-                chainId = Chain.EOS;
-            }
-            else
-            {
-                chainId = args.ChainId;
-            }
-
-            // Set the request flags and callback
-            var flag = RequestFlag.None;
-            var callback = "";
-            if (isIdentity)
-            {
-                flag.SetBackground(true);
-            }
-            if (args.broadcast != null && args.broadcast.HasValue)
-            {
-                flag.SetBroadcast(args.broadcast.Value);
-            }
-            if (args.callback != null)
-            {
-                callback = args.callback.Url;
-                if (args.callback.Background != null && args.callback.Background.HasValue)
-                {
-                    flag.SetBackground(args.callback.Background.Value);
-                }
-            }
-
-            // Add info pairs if there are any
-            var info = new List<InfoPair>();
-            if (args.info != null)
-            {
-                info = args.info;
-            }
-
-            // TODO: To be implemented for protocol version 3
-            //if (args.chainIds != null && args.chainId == null)
-            //{
-            //    info.Add(InfoPair.Create(ChainId.CHAIN_IDS, JSRuntime.SerializeChains(args.chainIds.ToArray())));
-            //}
-
-            var request = new SigningRequest(options.abiProvider, options.zlib);
-            request.SetCallback(callback);
-            request.SetRequestFlag(flag);
-            await request.SetRequest(requestData);
-            request.SetInfoPairs(info);
-            request.SetChainId(chainId.ToChainId());
-
-            if (options.signatureProvider != null)
-            {
-                request.Sign(options.signatureProvider);
-            }
-
-            return request;
-        }
-
-        /// <summary>
-        /// Creates an identity request.
-        /// </summary>
-        /// <param name="args">The identity request arguments</param>
-        /// <param name="options">The signing request options</param>
-        /// <returns>Returns the signing request for identity</returns>
-        public static UniTask<SigningRequest> Identity(SigningRequestCreateIdentityArgs args, SigningRequestEncodingOptions options)
-        {
-            var createArgs = new SigningRequestCreateArgs();
-            createArgs.info = args.info;
-
-            // TODO: To be implemented for protocol version 3
-            //createArgs.chainIds = args.chainIds;
-            //createArgs.ChainId = args.ChainId;
-            createArgs.ChainType = args.ChainType;
-            createArgs.callback = args.callback;
-            createArgs.broadcast = false;
-            PermissionLevel permission = new PermissionLevel(
-                args.account.Value ?? PLACEHOLDER_NAME,
-                args.permission.Value ?? PLACEHOLDER_PERMISSION);
-
-            // TODO: To be implemented for protocol version 3
-            //if (!string.IsNullOrEmpty(args.scope))
-            //{
-            //    var permission = new PermissionLevel(args.account, args.permission);
-            //    createArgs.identityV3 = new IdentityV3(args.scope, permission);
-            //}
-            //else
-            //{
-            if (permission.Actor.Value == PLACEHOLDER_NAME && permission.Permission.Value == PLACEHOLDER_PERMISSION)
-            {
-                permission = null;
-            }
-            createArgs.identityV2 = new IdentityV2(permission);
-            //}
-            return Create(createArgs, options, null);
-        }
-
-        public static SigningRequest FromTransaction(ChainId chainId, byte[] serializedTransaction, SigningRequestEncodingOptions options)
-        {
-            using (var buf = new System.IO.MemoryStream())
-            {
-                buf.WriteByte(2); // The header
-                var id = chainId.ToVariant();
-                if ((string)id[0] == "chain_alias")
-                {
-                    buf.WriteByte(0);
-                    buf.WriteByte(System.Convert.ToByte((int)id[1]));
-                }
-                else
-                {
-                    buf.WriteByte(1);
-                    byte[] bytes = HexUtility.FromHexString((string)id[1]);
-                    buf.Write(bytes, 0, bytes.Length);
-                }
-
-                buf.WriteByte(2); // The transaction variant
-                buf.Write((byte[])serializedTransaction, 0, ((byte[])serializedTransaction).Length);
-                buf.WriteByte((byte)RequestFlag.Broadcast); // The request flags
-                buf.WriteByte(0); // The request callback
-                buf.WriteByte(0); // The info
-
-                return FromData(buf.ToArray(), options);
-            }
-        }
-
-        /// <summary>
-        /// Creates a signing request from encoded `esr:` URI string.
-        /// </summary>
-        /// <param name="uri">The ESR encoded URI string</param>
-        /// <param name="options">The signing request options</param>
-        /// <returns>Returns the signing request object decoded from the ESR URI</returns>
-        public static SigningRequest From(string uri, SigningRequestEncodingOptions options)
-        {
-            var request = new SigningRequest(options.abiProvider, options.zlib);
-            return request.Load(uri);
-        }
-
-        /// <summary>
-        /// Creates a signing request from binary data.
-        /// </summary>
-        /// <param name="data">The binary data</param>
-        /// <param name="options">The signing request options</param>
-        /// <returns>Returns the signing request object</returns>
-        public static SigningRequest FromData(byte[] data, SigningRequestEncodingOptions options)
-        {
-            var request = new SigningRequest(options.abiProvider, options.zlib);
-            return request.Load(data);
-        }
-
-        #endregion
-
         #region Fields
 
         /// <summary>
@@ -375,6 +55,18 @@ namespace StrattonStudios.EosioUnity.Signing
         private string callback;
         private List<InfoPair> infoPairs;
         private Signature signature;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the signing request protocol version.
+        /// </summary>
+        public int Version
+        {
+            get => this.version;
+        }
 
         #endregion
 
@@ -432,11 +124,11 @@ namespace StrattonStudios.EosioUnity.Signing
         /// <param name="data">The binary data</param>
         /// <returns>Returns the decoded signing request</returns>
         /// <exception cref="EosioException"></exception>
-        private SigningRequest Load(byte[] data)
+        public SigningRequest Load(byte[] data)
         {
             int header = data[0] & 0xff;
-            int version = header & ~(1 << 7);
-            if (version != PROTOCOL_VERSION)
+            this.version = header & ~(1 << 7);
+            if (this.version != PROTOCOL_VERSION)
                 throw new EosioException("Unsupported protocol version");
 
             byte[] reqArray = ArrayUtility.CopyOfRange(data, 1, data.Length);

@@ -40,9 +40,9 @@ namespace StrattonStudios.AnchorLinkUnity
         {
             var c = this.link.ActiveChain;
             var options = new SigningRequestEncodingOptions();
-            options.abiProvider = c;
-            options.zlib = DefaultZlibProvider.Instance;
-            var request = SigningRequest.FromTransaction(Chain.FromChainId(chainId).ToChainId(), signBytes, options);
+            options.AbiProvider = c;
+            options.Zlib = DefaultZlibProvider.Instance;
+            var request = SigningRequestFactory.CreateFromTransaction(Chain.FromChainId(chainId).ToChainId(), signBytes, options);
             var callback = this.callbackService.Create();
             request.SetCallback(callback.Url);
             request.GetRequestFlag().SetBackground(true).SetBroadcast(false);

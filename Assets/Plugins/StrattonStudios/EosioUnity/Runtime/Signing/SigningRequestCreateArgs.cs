@@ -9,15 +9,17 @@ namespace StrattonStudios.EosioUnity.Signing
     public class SigningRequestCreateArgs : SigningRequestCommonArgs
     {
 
+        #region Properties
+
         /// <summary>
         /// Single action to create request with.
         /// </summary>
-        public Action action;
+        public Action Action { get; set; }
 
         /// <summary>
         /// Multiple actions to create request with.
         /// </summary>
-        public Actions actions;
+        public Actions Actions { get; set; }
 
         /// <summary>
         /// Full or partial transaction to create request with.
@@ -25,7 +27,7 @@ namespace StrattonStudios.EosioUnity.Signing
         /// <remarks>
         /// If TAPoS info is omitted it will be filled in when resolving the request.
         /// </remarks>
-        public Transaction transaction;
+        public Transaction Transaction { get; set; }
 
         /// <summary>
         /// Create an identity request.
@@ -33,10 +35,10 @@ namespace StrattonStudios.EosioUnity.Signing
         /// <remarks>
         /// This uses Protocol Version 2
         /// </remarks>
-        public IdentityV2 identityV2;
+        public IdentityV2 IdentityV2 { get; set; }
 
         /// <summary>
-        /// Create an identity request.
+        /// Create an identity request. (to be implemented for protocol version 3)
         /// </summary>
         /// <remarks>
         /// This uses Protocol Version 3
@@ -46,12 +48,14 @@ namespace StrattonStudios.EosioUnity.Signing
         /// <summary>
         /// Whether wallet should broadcast tx, defaults to true.
         /// </summary>
-        public bool? broadcast;
+        public bool? Broadcast { get; set; }
 
         /// <summary>
         /// Optional callback URL the signer should hit after broadcasting or signing.
         /// </summary>
-        public LinkCallback callback;
+        public LinkCallback Callback { get; set; }
+
+        #endregion
 
     }
 

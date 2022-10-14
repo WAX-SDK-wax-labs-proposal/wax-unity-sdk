@@ -276,28 +276,37 @@ namespace StrattonStudios.AnchorLinkUnity.Transports.UGUI
 
         public bool RecoverError(Exception error, SigningRequest request)
         {
+
+            // Ensure it is the active request that is handled by this transport has failed
             if (request == this.activeRequest)
             {
+
+                // Only Link exceptions are handled and recovered
                 if (error is LinkException)
                 {
                     Debug.LogException(error);
+
                     var linkError = (SessionException)error;
                     if (linkError.Code == LinkErrorCode.E_DELIVERY || linkError.Code == LinkErrorCode.E_TIMEOUT)
                     {
 
-                        // recover from session errors by displaying a manual sign dialog
+                        // If a manual signing screen is being shown, skip handling
                         if (this.showingManual)
                         {
 
-                            // already showing recovery sign
                             return true;
                         }
+
+                        // Recover from session errors by displaying a manual sign dialog
+                        // If there is a session associated with the exception, the manual recovery can be displayed
                         var session = linkError.Session;
                         if (linkError.SkipToManual)
                         {
                             ShowRecovery(request, session);
                             return true;
                         }
+
+                        // Show manual recovery with additional information about failure
                         string subtitle;
                         if (session.Metadata.ContainsKey("name") && !string.IsNullOrEmpty((string)session.Metadata["name"]))
                         {

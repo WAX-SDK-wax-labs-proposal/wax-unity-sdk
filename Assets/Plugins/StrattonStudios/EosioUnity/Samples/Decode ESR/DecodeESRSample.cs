@@ -40,9 +40,9 @@ namespace StrattonStudios.EosioUnity.Samples
         public void Decode()
         {
             var options = new SigningRequestEncodingOptions();
-            options.zlib = this.zlibProvider;
-            options.abiProvider = this.abiProvider;
-            var request = SigningRequest.From(this.encodedUrl, options);
+            options.Zlib = this.zlibProvider;
+            options.AbiProvider = this.abiProvider;
+            var request = SigningRequestFactory.CreateFromUri(this.encodedUrl, options);
 
             Debug.Log(request.ToDataJSON());
         }

@@ -10,28 +10,28 @@ namespace StrattonStudios.EosioUnity.Signing
     {
 
         /// <summary>
-        /// Callback where the identity should be delivered.
+        /// Gets or sets the callback where the identity should be delivered.
         /// </summary>
-        public LinkCallback callback;
+        public LinkCallback Callback { get; set; }
 
         /// <summary>
-        /// Requested account name of identity.
+        /// Gets or sets the requested account name of identity.
         /// </summary>
         /// <remarks>
         /// Defaults to placeholder (any identity) if omitted.
         /// </remarks>
-        public AccountName account;
+        public AccountName Account { get; set; }
 
         /// <summary>
-        /// Requested account permission.
+        /// Gets or sets the requested account permission.
         /// </summary>
         /// <remarks>
         /// Defaults to placeholder (any permission) if omitted.
         /// </remarks>
-        public PermissionName permission;
+        public PermissionName Permission { get; set; }
 
         /// <summary>
-        /// Scope for the request.
+        /// Scope for the request. (to be implemented for protocol version 3)
         /// </summary>
         //public string scope;
 

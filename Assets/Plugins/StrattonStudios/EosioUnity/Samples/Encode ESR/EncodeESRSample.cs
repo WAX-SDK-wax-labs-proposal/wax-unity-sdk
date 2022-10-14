@@ -64,7 +64,7 @@ namespace StrattonStudios.EosioUnity.Samples
         public async void Encode()
         {
             var args = new SigningRequestCreateArgs();
-            args.action = new Action()
+            args.Action = new Action()
             {
                 Account = new AccountName("eosio.token"),
                 Authorization = new List<PermissionLevel>()
@@ -86,10 +86,10 @@ namespace StrattonStudios.EosioUnity.Samples
             //args.chainId = Chain.FromChainId(this.chainId);
 
             var options = new SigningRequestEncodingOptions();
-            options.zlib = this.zlibProvider;
-            options.abiProvider = this.abiProvider;
+            options.Zlib = this.zlibProvider;
+            options.AbiProvider = this.abiProvider;
 
-            var request = await SigningRequest.Create(args, options);
+            var request = await SigningRequestFactory.Create(args, options);
 
             // The encoded signing request URL
             var url = request.Encode();

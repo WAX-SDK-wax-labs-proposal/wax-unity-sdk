@@ -84,7 +84,7 @@ namespace StrattonStudios.AnchorLinkUnity.Samples
         public async void Transact()
         {
 
-            // Use the logged in acconut if available
+            // Use the logged in account if available
             var account = this.session != null ? this.session.Auth.Actor.Value : this.from;
 
             var action = new Action()

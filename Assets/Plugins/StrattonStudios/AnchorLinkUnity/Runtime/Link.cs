@@ -122,8 +122,8 @@ namespace StrattonStudios.AnchorLinkUnity
         public async UniTask<(SigningRequest, ILinkCallback)> CreateRequest(SigningRequestCreateArgs args, ILinkTransport transport)
         {
             SigningRequestEncodingOptions options = new SigningRequestEncodingOptions();
-            options.abiProvider = this.ActiveChain;
-            options.zlib = DefaultZlibProvider.Instance;
+            options.AbiProvider = this.ActiveChain;
+            options.Zlib = DefaultZlibProvider.Instance;
 
             //if (chain != null)
             //{
@@ -137,9 +137,9 @@ namespace StrattonStudios.AnchorLinkUnity
 
             args.ChainType = this.ActiveChain.ChainType;
 
-            args.broadcast = false;
+            args.Broadcast = false;
 
-            var request = await SigningRequest.Create(args, options);
+            var request = await SigningRequestFactory.Create(args, options);
 
             request.SetRequestFlag(RequestFlag.Background);
 
@@ -220,8 +220,8 @@ namespace StrattonStudios.AnchorLinkUnity
 
                 // Recreate transaction from request response
                 var options = new SigningRequestEncodingOptions();
-                options.abiProvider = theChain;
-                options.zlib = DefaultZlibProvider.Instance;
+                options.AbiProvider = theChain;
+                options.Zlib = DefaultZlibProvider.Instance;
 
                 var resolved = await ResolvedSigningRequest.FromPayload(payload, options);
 
@@ -283,7 +283,7 @@ namespace StrattonStudios.AnchorLinkUnity
         {
             var result = new IdentifyResult();
             var args = new SigningRequestCreateArgs();
-            args.identityV2 = new IdentityV2(requestPermission);
+            args.IdentityV2 = new IdentityV2(requestPermission);
             args.info = info;
             var (request, callback) = await CreateRequest(args, null);
             var response = await SendRequest(request, callback, null, false);
@@ -412,12 +412,12 @@ namespace StrattonStudios.AnchorLinkUnity
             // TODO: Might be unnecessary
 
             var createArgs = new SigningRequestCreateArgs();
-            createArgs.action = args.action;
-            createArgs.actions = args.actions;
-            createArgs.transaction = args.transaction;
+            createArgs.Action = args.action;
+            createArgs.Actions = args.actions;
+            createArgs.Transaction = args.transaction;
             //createArgs.chainId = Chain.FromChainId(this.ActiveChain.ChainId.GetChainId());
             createArgs.ChainType = this.ActiveChain.ChainType;
-            createArgs.broadcast = broadcast;
+            createArgs.Broadcast = broadcast;
             var (request, callback) = await CreateRequest(createArgs, t);
             if (noModify)
             {
